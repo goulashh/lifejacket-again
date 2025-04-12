@@ -16,7 +16,7 @@
             :id="task.name" :title="task.name"
             > {{ task.count }} </router-link>
         </div>
-        <p class="glassy ishoverable p-2">CURRENT LOCATION</p>
+        <p class="glassy p-2">CURRENT LOCATION</p>
         <router-link class="glassy ishoverable p-2" to="/settings">Settings</router-link>
         <button class="glassy ishoverable p-2" :@click.prevent="logout()">Log Out</button>
     </nav>

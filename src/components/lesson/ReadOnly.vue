@@ -1,6 +1,11 @@
 <template>
-    <h1>{{ content.title }}</h1>
-    <p>{{ content.text }}</p>
+    <div id="read-only-main" class="p3">
+        <h1 id="title">{{ content.title }}</h1>
+        <img v-if="content.image"
+        :src="content.image.src" :alt="content.image.alt"
+        />
+        <p id="text">{{ content.text }}</p>
+    </div>
 </template>
 
 <script>

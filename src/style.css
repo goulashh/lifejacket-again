@@ -279,6 +279,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  overflow: hidden;
 }
 h1 {
   font-size: x-large;
@@ -304,7 +305,7 @@ nav {
 }
 #due {
   border-radius: calc(infinity * 1px);
-  background: rgba(93, 255, 139, 0.3);
+  background: rgba(255, 231, 93, 0.3);
   backdrop-filter: blur(3px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -316,6 +317,7 @@ nav {
 }
 :disabled {
   background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
 }
 .ishoverable {
   transition-property: box-shadow;
@@ -368,6 +370,7 @@ nav {
   grid-template-rows: 1fr 7fr;
   grid-template-areas: "a" "b";
   height: 86vh;
+  max-height: 86vh;
 }
 #lesson-topbar {
   grid-area: a;
@@ -377,6 +380,9 @@ nav {
 }
 #score-count {
   grid-area: aa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #progress-bar {
   grid-area: ab;
@@ -386,6 +392,60 @@ nav {
 }
 #lesson-body {
   grid-area: b;
+}
+#multiple-choice-main {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 4fr 3fr;
+  grid-template-areas: "ba" "bb" "bc";
+}
+#timer {
+  grid-area: ba;
+  width: fit-content;
+  height: fit-content;
+}
+#question {
+  grid-area: bb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+#answers {
+  grid-area: bc;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  button {
+    width: 49%;
+    height: 46%;
+  }
+}
+#read-only-main {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 4fr 2fr;
+  grid-template-areas: "ba" "bb";
+}
+#title {
+  grid-area: ba;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#text {
+  grid-area: bb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.correct {
+  background-color: rgba(93, 255, 139, 0.3);
+}
+.incorrect {
+  background-color: rgba(255, 93, 93, 0.3);
 }
 @property --tw-shadow {
   syntax: "*";

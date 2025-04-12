@@ -3,7 +3,7 @@
         <div id="lesson-topbar" class="glassy p-2">
             <p id="score-count" class="glassy p-2 m-1">Score: {{ totalScore }}</p>
             <progress id="progress-bar" 
-            class="glassy p-2 m-1"
+            class="glassy m-1"
             :value="position" :max="lessonParts.length"/>
             <button id="progression-button"
             class="glassy ishoverable p-2 m-1"
@@ -40,6 +40,16 @@ export default {
                 {type: "read only", content: {
                     title: "TEST TITLE",
                     text: "TEST TEXT"
+                }},
+                {type: 'multiple choice', content: {
+                    question: "TEST QUESTION ANSWER IS A",
+                    answers: [
+                        {index: 1, text: "A"},
+                        {index: 2, text: "B"},
+                        {index: 3, text: "C"},
+                        {index: 4, text: "D"}
+                    ],
+                    correctAnswer: 1
                 }},
                 {type: 'multiple choice', content: {
                     question: "TEST QUESTION ANSWER IS A",
