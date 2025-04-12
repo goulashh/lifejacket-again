@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+body {
+    @apply text-blue-900;
+    background: rgb(110, 177, 231);
+     /* Set ocean svg as background */
+    margin: 0;
+    height: 100vh;
+    background-image: url('./assets/ocean.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    font-size: x-large;
+}
+
+nav {
+    @apply justify-between items-center space-x-4 p-2 m-3;
+    display: flex;
+    font-weight: bold; 
+}
+
+#overdue {
+    @apply rounded-full;
+    background: rgba(255, 93, 93, 0.3);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+#due {
+    @apply rounded-full;
+    background: rgba(93, 255, 139, 0.3);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.glassy {
+    @apply rounded-2xl;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+:disabled {
+    background: rgba(255, 255, 255, 0.15)
+}
+
+.ishoverable {
+    @apply hover:shadow-2xl transition-shadow duration-200;
+}
+
+/* DASHBOARD LAYOUT ITEMS ----------------------------------------------------*/
+#dash-main {
+    @apply m-3;
+    display: grid;
+    grid-template-columns: 7fr 5fr; /* 7/12 and 5/12 of the width */
+    grid-template-areas: "a b";
+    max-height: 86vh;
+}
+#dash-topic-div {
+    grid-area: a;
+    overflow-y: scroll;
+    max-height: 86vh;
+}
+#dash-leaderboard-div {
+    grid-area: b;
+    height: 86vh;
+}
+
+/* TOPIC LAYOUT ITEMS ----------------------------------------------------*/
+#topic-main {
+    @apply m-3;
+    display: grid;
+    grid-template-columns: 7fr 5fr; /* 7/12 and 5/12 of the width */
+    grid-template-areas: "a b";
+    height: 86vh;
+}
+#topic-lessons {
+    grid-area: a;
+    overflow-y: scroll;
+    height: 86vh;
+}
+#topic-leaderboard {
+    grid-area: b;
+    height: 86vh;
+}
+
+/* LESSON LAYOUT ITEMS ----------------------------------------------------*/
+#lesson-main {
+    @apply m-3;
+    display: grid;
+    grid-template-rows: 1fr 7fr;
+    grid-template-areas: "a" "b";
+    height: 86vh;
+}
+#lesson-topbar {
+    grid-area: a;
+    display: grid;
+    grid-template-columns: 1fr 5fr 2fr;
+    grid-template-areas: "aa ab ac";
+}
+    #score-count {
+        grid-area: aa;
+    }
+    #progress-bar {
+        grid-area: ab;
+    }
+    #progression-button {
+        grid-area: ac;
+    }
+
+#lesson-body {
+    grid-area: b;
+}
+
+/* ______ LAYOUT ITEMS ----------------------------------------------------*/
