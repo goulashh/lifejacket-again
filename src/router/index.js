@@ -27,10 +27,11 @@ const routes = [
     children: [
       {
         path: 'go',
+        props: true,
         component: Lesson
       },
     ]
-  }
+  },
 ]
 
 const router = createRouter({

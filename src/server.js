@@ -31,8 +31,11 @@ db.connect(err => {
 // LOGIN RELATED
 app.post('/api/login', (req, res) => {
     const sql = `
-    SELECT UserID FROM Users
-    WHERE Username = ? AND UserID = ?
+    SELECT u.UserID, s.StudentID, t.TeacherID
+    FROM Users u
+    LEFT JOIN Students s ON u.UserID = s.UserID
+    LEFT JOIN Teachers t ON u.UserID = t.UserID
+    WHERE u.Username = ? AND u.UserID = ?
     `;
     const reqData = [req.body.username, req.body.password];
     db.query(sql, reqData, (err, results) => {
@@ -42,6 +45,8 @@ app.post('/api/login', (req, res) => {
             res.send({ 
                 success: true, 
                 userID: results[0].UserID, 
+                studentID: results[0].StudentID, 
+                teacherID: results[0].TeacherID, 
                 timestamp: new Date().toISOString() });
         }
         else {
@@ -215,6 +220,27 @@ app.get('/api/getTaskCount/:studentID', (req, res) => {
         {name: "overdue", count: 1},
         {name: "due", count: 2}
     ]);
+});
+
+// LESSON RELATED
+app.post('/api/submit', (req, res) => {
+    const sql = `
+    INSERT INTO Scores (Score, AttemptDate, LessonID, StudentID)
+    VALUES (?,?,?,?)
+    `;
+    const reqData = [req.body.score, new Date().toISOString().split('T')[0], req.body.lessonID, req.body.studentID];
+    db.query(sql, reqData, (err, results) => {
+        if (err) {return res.status(500).json({ error: err.message });}
+        db.commit(err => {
+            if (err) {
+                return db.rollback(() => {
+                    return res.status(500).json({ error: err.message });
+                });
+            }
+            console.log("worked!");
+            return res.json({ success: true });
+        });
+    });
 });
 
 // LISTENING / RUNNING

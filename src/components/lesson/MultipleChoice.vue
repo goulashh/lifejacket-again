@@ -23,6 +23,7 @@ import ScoreTimer from './scoreTimer';
 export default {
     props: {content: {type: Object, required: true}},
     watch: {content(newValue, oldValue) {
+        delete this.scoreTimer;
         this.scoreTimer = new ScoreTimer(60, 100);
         this.scoreTimer.start();
     }},

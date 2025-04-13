@@ -23,10 +23,17 @@
 </template>
 
 <script>
+import axios from 'axios';
 import MultipleChoice from '@/components/lesson/MultipleChoice.vue';
 import ReadOnly from '@/components/lesson/ReadOnly.vue';
 
 export default {
+    props: {
+        lessonID: {
+            type: Number,
+            required: true
+        }
+    },
     components: {
         MultipleChoice,
         ReadOnly
@@ -73,15 +80,24 @@ export default {
     created() {
         this.$bus.$on('enable_progression', (score) => {
             // Allows the user to press next, but doesn't progress until button is pressed.
-            this.totalScore += score;
+            console.log(`TS ${this.totalScore} + S ${score} = ${this.totalScore + score}`);
+            this.totalScore = this.totalScore + score;
             this.goNext = true;
         });
 
-        this.$bus.$on('signal_next', () => {
+        this.$bus.$on('signal_next', async () => {
             // For when the next button is pressed...
             if(this.lessonParts.length -1 == this.position) {
                 // This means the lesson has finished.
-                this.$bus.$emit('submit', this.totalScore);
+                try {
+                    await axios.post('http://localhost:5000/api/submit', {
+                    score: this.totalScore,
+                    lessonID: this.lessonID,
+                    studentID: sessionStorage.getItem('studentID')
+                });
+                } catch (error) {
+                    console.error('Error fetching items:', error);
+                }
             }
             else {
                 // If it hasn't finished, then the lesson progresses

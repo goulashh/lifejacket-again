@@ -38,6 +38,8 @@ export default {
                 if (response.data.success) {
                     // Store some sort of detail in session so you know who is logged in
                     sessionStorage.setItem('userID', response.data.userID);
+                    sessionStorage.setItem('studentID', response.data.studentID);
+                    sessionStorage.setItem('teacherID', response.data.teacherID);
                     sessionStorage.setItem('loginTimestamp', response.data.timestamp);
                     router.push('/dash');
                 }

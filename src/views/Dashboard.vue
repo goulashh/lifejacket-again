@@ -42,7 +42,7 @@ export default {
     methods: {
         async getTopicSummaries() {
             try {
-                const response = await axios.get(`http://localhost:5000/api/topicsummary/${1 /* replace with session student id */}`);
+                const response = await axios.get(`http://localhost:5000/api/topicsummary/${sessionStorage.getItem('studentID')}`);
                 this.topicSummaries = response.data;
             } catch (error) {
                 console.error('Error fetching items:', error);
