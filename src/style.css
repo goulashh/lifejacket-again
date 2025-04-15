@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.4 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -446,6 +446,10 @@ nav {
 }
 .incorrect {
   background-color: rgba(255, 93, 93, 0.3);
+}
+#game-main {
+  width: 100%;
+  height: 80vh;
 }
 @property --tw-shadow {
   syntax: "*";

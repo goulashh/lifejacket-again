@@ -1,3 +1,4 @@
+import GameHandler from '@/components/games/GameHandler.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import Lesson from '@/views/Lesson.vue'
 import Login from '@/views/Login.vue'
@@ -32,6 +33,11 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/test/:gameFile', 
+    props: true,
+    component: GameHandler
+  }
 ]
 
 const router = createRouter({
