@@ -12,8 +12,8 @@
     </div>
 
     <div class="glassy mx-1 p-3" id="dash-leaderboard-div">
-        <div class="flex justify-center"><h1>Global Leaderboard</h1></div>
-        <leaderboard class="m-2" :items="leaderboardData"/>
+        <div class="flex justify-center my-1"><h1>Global Leaderboard</h1></div>
+        <leaderboard :items="leaderboardData"/>
     </div>
 
 </div></template>

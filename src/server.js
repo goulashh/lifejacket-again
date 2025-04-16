@@ -223,6 +223,35 @@ app.get('/api/getTaskCount/:studentID', (req, res) => {
 });
 
 // LESSON RELATED
+app.get('/api/getLessonParts/:lessonID', (req, res) => {
+    // placeholder
+    return res.json(
+        [
+            {type: 'read only', content: {
+                title: 'What is Personal Data?',
+                text: 'Personal data is any information relating to a person who could be identified. Even if the info on its own cant identify a person, putting enough info togther could give enough clues to that persons identity.'
+            }},
+            {type: 'multiple choice', content: {
+                question: 'What is Personal Data?',
+                answers: [
+                    {index: 1, text: 'Any data about a person'},
+                    {index: 2, text: 'Private data that can identify a person'},
+                    {index: 3, text: 'Any data that can identify a person'},
+                    {index: 4, text: 'Public data about a person'}
+                ],
+                correctAnswer: 1
+            }}
+        ]
+    );
+    const sql = `SELECT LessonParts FROM Lessons WHERE LessonID = ?;`;
+    db.query(sql, [parseInt(req.params.lessonID)], (err, results) => {
+        if (err) { 
+            return res.status(500).json({ error: err.message });
+        }
+        return res.json(results);
+    });
+});
+
 app.post('/api/submit', (req, res) => {
     const sql = `
     INSERT INTO Scores (Score, AttemptDate, LessonID, StudentID)

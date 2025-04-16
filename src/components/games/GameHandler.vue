@@ -11,7 +11,7 @@ export default {
     },
     async created() {
         // Using the prop from above, the game file will be imported and set to work with.
-        const gameObject = await import(`./${this.gameFile}.js`);
+        const gameObject = await import(`@/components/games/${this.gameFile}.js`);
     }
 }
 </script>

@@ -18,6 +18,9 @@
             <multiple-choice
             v-if="lessonParts[position].type === 'multiple choice'"
             :content="lessonParts[position].content"/>
+            <game-handler
+            v-if="lessonParts[position].type === 'game'"
+            :gameFile="lessonParts[position].content"/>
         </div> 
     </div>
 </template>
@@ -26,6 +29,7 @@
 import axios from 'axios';
 import MultipleChoice from '@/components/lesson/MultipleChoice.vue';
 import ReadOnly from '@/components/lesson/ReadOnly.vue';
+import GameHandler from '@/components/games/GameHandler.vue';
 
 export default {
     props: {
@@ -36,7 +40,8 @@ export default {
     },
     components: {
         MultipleChoice,
-        ReadOnly
+        ReadOnly,
+        GameHandler
     },
     data() {
         return {
@@ -68,6 +73,7 @@ export default {
                     ],
                     correctAnswer: 1
                 }},
+                {type: 'game', content: 'DataJetski'},
             ]
         }
     },
@@ -77,7 +83,9 @@ export default {
             else {return "Next";}
         }
     },
-    created() {
+    async created() {
+        this.lessonParts = (await axios.get(`http://localhost:5000/api/getLessonParts/${this.lessonID}`)).data;
+
         this.$bus.$on('enable_progression', (score) => {
             // Allows the user to press next, but doesn't progress until button is pressed.
             console.log(`TS ${this.totalScore} + S ${score} = ${this.totalScore + score}`);

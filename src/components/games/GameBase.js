@@ -5,13 +5,14 @@ class GameBase{
     constructor() {
         this.score = 0;
         this.isRunning = false;
+        this.gameMain = document.getElementById("game-main");
         this.gameCanvas = {
             canvas: document.createElement("canvas"),
-            start: function() {
-                const gameMain = document.getElementById("game-main");
-                this.canvas.width = gameMain.offsetWidth; this.canvas.height = gameMain.offsetHeight;
-                this.context = this.canvas.getContext("2d");
-                gameMain.appendChild(this.canvas);
+            start: () => {
+                this.gameCanvas.canvas.width = 0.98*this.gameMain.offsetWidth; 
+                this.gameCanvas.canvas.height = 0.96*this.gameMain.offsetHeight;
+                this.gameCanvas.context = this.gameCanvas.canvas.getContext("2d");
+                this.gameMain.appendChild(this.gameCanvas.canvas);
             }
         }
         this.gameCanvas.start();

@@ -79,7 +79,7 @@ class SquareGame extends GameBase {
         const ctx = this.gameCanvas.context;
         ctx.clearRect(0, 0, this.gameCanvas.canvas.width, this.gameCanvas.canvas.height); // Clear the canvas
         ctx.fillStyle = 'white'; // Set the background color to white
-         ctx.fillRect(0, 0, this.gameCanvas.canvas.width, this.gameCanvas.canvas.height);
+        ctx.fillRect(0, 0, this.gameCanvas.canvas.width, this.gameCanvas.canvas.height);
         ctx.fillStyle = 'blue'; // Set the square color
         ctx.fillRect(this.square.x, this.square.y, this.square.size, this.square.size); // Draw the square
     }

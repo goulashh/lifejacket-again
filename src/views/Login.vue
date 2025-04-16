@@ -16,7 +16,7 @@
                 </div>
                 <span id="feedback" class="text-red-500 text-sm"></span>
                 <!-- Captcha -->
-                <button type="submit" class="w-full glassy ishoverable">Login</button>
+                <button type="submit" class="w-full glassy ishoverable p-2 m-1">Login</button>
             </form>
         </div>
     </div>
