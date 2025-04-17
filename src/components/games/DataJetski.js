@@ -27,6 +27,11 @@ class DataJetski extends GameBase {
         //    context.drawImage(this.player.sprites, 10, 10, 100, 100);
         //}
         this.setup_input();
+        //this.rockImg = new Image(); this.rockImg.src = "./rock.svg";
+        //this.rockImg.onload = () => {
+        //    // The game will throw an error unless the image is loaded.
+        //    this.run();
+        //};
     }
     setup_input() {
         window.addEventListener('keyup', (event) => {
@@ -51,6 +56,15 @@ class DataJetski extends GameBase {
         }
         this.dangerRocks.forEach((rock, index) => {
             rock.x -= this.gameCanvas.canvas.width*0.01;
+            if(rock.x >= 20 && rock.x <= 50 && rock.lane == this.player.lane) {
+                // Collision has occured!
+                console.log("Collision has occured!");
+                this.player.lives -= 1;
+                if(this.player.lives == 0) {
+                    game.isRunning = false;
+                }
+                this.dangerRocks.splice(index, 1);
+            }
             if(rock.x <= -10) {this.dangerRocks.splice(index, 1);}
         });
     }
@@ -62,6 +76,7 @@ class DataJetski extends GameBase {
         ctx.fillStyle = 'red'; // Set the square color
         this.dangerRocks.forEach((rock, index) => {
             ctx.fillRect(rock.x, this.gameMain.offsetHeight*0.3*rock.lane+20, 30, 30); // Draw the rock
+            //ctx.drawImage(this.rockImg, rock.x, this.gameMain.offsetHeight*0.3*rock.lane+20, 30, 30);
         });
     }
 }

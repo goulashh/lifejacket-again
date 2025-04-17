@@ -16,7 +16,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Do as I say!',
-    database: 'LifeJacketDB'
+    database: 'LifeJacket'
 });
 db.connect(err => {
     if (err) {
@@ -82,7 +82,6 @@ app.get('/api/topicsummary/:studentid', (req, res) => {
         courseIDs = results.map(result => result.CourseID); // Different colour buttons will show this?
 
     // 2. Get amount of lessons for each topic (using TopicID)
-    console.log(results);
         const placeholders = topicIDs.map(() => '?').join(', ');
         const lessonsInTopics = `
         SELECT TopicID, COUNT(LessonID) AS totalLessons
@@ -111,6 +110,7 @@ app.get('/api/topicsummary/:studentid', (req, res) => {
                     return res.status(500).json({ error: err3.message });
                 }
                 // results split by TopicID
+                console.log(results3);
                 const resultsByTopic = {};
 
                 results3.forEach(result => {
@@ -124,11 +124,12 @@ app.get('/api/topicsummary/:studentid', (req, res) => {
                 });
 
     // 4. Format this data for the homepage.
-    console.log("4");
+    console.log("RBT " + resultsByTopic[1]);
                 const items = [];
                 for (let i = 0; i < topicIDs.length; i++) {
                     const scores = {poor: 0, okay: 0, good: 0, notDone: 0};
-                    for (let lesson = 0; lesson < resultsByTopic[(i+1).toString()].length; lesson++) {
+                    const topicLessonLength = (resultsByTopic[(i + 1).toString()] || []).length;
+                    for (let lesson = 0; lesson < topicLessonLength; lesson++) {
                         if (resultsByTopic[(i+1).toString()][lesson] >= 67) {scores.good++;}
                         else if (resultsByTopic[(i+1).toString()][lesson] >= 34) {scores.okay++;}
                         else {scores.poor++;}
@@ -141,6 +142,7 @@ app.get('/api/topicsummary/:studentid', (req, res) => {
                         scores:     scores
                     });
                 };
+                console.log("DONE");
                 return res.json(items);
             });
         }); 
@@ -149,7 +151,6 @@ app.get('/api/topicsummary/:studentid', (req, res) => {
 app.get('/api/leaderboard/:whatOf/:relevantID', (req, res) => {
     whatOfQuery = '';
     data = null;
-    console.log("WHAT OF IS ",req.params.whatOf);
     switch(req.params.whatOf) {
         case 'global':
             whatOfQuery = `
@@ -177,14 +178,12 @@ app.get('/api/leaderboard/:whatOf/:relevantID', (req, res) => {
             LIMIT 10;`;
             data = [req.params.relevantID];
             break;
-        console.log(whatOfQuery);
     }
     db.query(whatOfQuery, data,
         (err, results) => {
             if (err) { 
                 return res.status(500).json({ error: err.message });
             }
-            console.log("viewtopic results: ", results);
             return res.json(results);
         });
 });
@@ -193,7 +192,7 @@ app.get('/api/leaderboard/:whatOf/:relevantID', (req, res) => {
 app.get('/api/viewtopic/:topicID/s/:studentID', (req, res) => {
     // Based on the course and topic, lesson details will be fetched.
     db.query(`
-        SELECT l.LessonID, l.LessonName, l.LessonFile, s.Score
+        SELECT l.LessonID, l.LessonName, s.Score
         FROM Lessons l
         JOIN Topics t ON t.TopicID = l.TopicID
         LEFT JOIN Scores s ON s.LessonID = l.LessonID AND s.StudentID = ?
@@ -205,8 +204,6 @@ app.get('/api/viewtopic/:topicID/s/:studentID', (req, res) => {
             if (err) { 
                 return res.status(500).json({ error: err.message });
             }
-            console.log(req.params.topicID);
-            console.log(results);
             return res.json(results);
         });
 });
@@ -226,22 +223,23 @@ app.get('/api/getTaskCount/:studentID', (req, res) => {
 app.get('/api/getLessonParts/:lessonID', (req, res) => {
     // placeholder
     return res.json(
-        [
-            {type: 'read only', content: {
-                title: 'What is Personal Data?',
-                text: 'Personal data is any information relating to a person who could be identified. Even if the info on its own cant identify a person, putting enough info togther could give enough clues to that persons identity.'
-            }},
-            {type: 'multiple choice', content: {
-                question: 'What is Personal Data?',
-                answers: [
-                    {index: 1, text: 'Any data about a person'},
-                    {index: 2, text: 'Private data that can identify a person'},
-                    {index: 3, text: 'Any data that can identify a person'},
-                    {index: 4, text: 'Public data about a person'}
-                ],
-                correctAnswer: 1
-            }}
-        ]
+    [
+        {type: "read only", content: {
+            title: "What is Personal Data?",
+            text: "Personal data is any information relating to a person who could be identified. Even if the info on its own can't identify a person, putting enough info togther could give enough clues to that person's identity."
+        }},
+        {type: "multiple choice", content: {
+            question: "What is Personal Data?",
+            answers: [
+                {index: 1, text: "Any data about a person"},
+                {index: 2, text: "Private data that can identify a person"},
+                {index: 3, text: "Any data that can identify a person"},
+                {index: 4, text: "Public data about a person"}
+            ],
+            correctAnswer: 1
+        }},
+        {type: "game", content: "DataJetski"}
+    ]
     );
     const sql = `SELECT LessonParts FROM Lessons WHERE LessonID = ?;`;
     db.query(sql, [parseInt(req.params.lessonID)], (err, results) => {
@@ -266,7 +264,6 @@ app.post('/api/submit', (req, res) => {
                     return res.status(500).json({ error: err.message });
                 });
             }
-            console.log("worked!");
             return res.json({ success: true });
         });
     });
