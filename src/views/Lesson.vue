@@ -85,6 +85,7 @@ export default {
     },
     async created() {
         this.lessonParts = (await axios.get(`http://localhost:5000/api/getLessonParts/${this.lessonID}`)).data;
+        console.log("LESSON PARTS: " + this.lessonParts);
 
         this.$bus.$on('enable_progression', (score) => {
             // Allows the user to press next, but doesn't progress until button is pressed.
