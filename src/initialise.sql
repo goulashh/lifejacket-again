@@ -110,5 +110,5 @@ INSERT INTO Teacher_Classes (TeacherID, ClassID) VALUES (1, 1);
 INSERT INTO Student_Classes (StudentID, ClassID) VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1); 
 
-INSERT INTO Scores (Score, AttemptDate, LessonID, StudentID) VALUES
-(100, '2025-01-01', 2, 1);
+INSERT INTO Tasks (DateSet, DateDue, LessonID) VALUES ('2025-04-22','2025-04-28', 1);
+INSERT INTO Student_Tasks (StudentID, Completed, TaskID) VALUES (1, 0, 1);

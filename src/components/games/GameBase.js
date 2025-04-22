@@ -21,6 +21,13 @@ class GameBase{
     draw() {}
     run() {
         this.isRunning = true;
+        //const gameLoop = setInterval(() => {
+        //    if (this.isRunning) {
+        //        this.game_logic();
+        //        this.draw();
+        //        requestAnimationFrame();
+        //    }
+        //}, 1000/fps);
         const loop = () => {
             if (this.isRunning) {
                 this.game_logic();

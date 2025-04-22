@@ -20,18 +20,19 @@ class DataJetski extends GameBase {
         this.player = {
             lane: 1, // Middle lane out of 0/1/2
             lives: 3,
-            //sprites: new Image(),
+            sprites: new Image(),
         }
         this.dangerRocks = []; // Will have 'rocks' added to it at random.
-        //this.player.sprites.onload = function() {
-        //    context.drawImage(this.player.sprites, 10, 10, 100, 100);
-        //}
         this.setup_input();
-        //this.rockImg = new Image(); this.rockImg.src = "./rock.svg";
-        //this.rockImg.onload = () => {
-        //    // The game will throw an error unless the image is loaded.
-        //    this.run();
-        //};
+        this.player.sprites.src = require('@/assets/logo.png');
+        this.player.sprites.onload = () => {
+                this.rockImg = new Image(); 
+                this.rockImg.src = require('./rock.svg');
+                this.rockImg.onload = () => {
+                    // The game will throw an error unless the image is loaded.
+                    this.run();
+                };
+        };
     }
     setup_input() {
         window.addEventListener('keyup', (event) => {
@@ -72,13 +73,14 @@ class DataJetski extends GameBase {
         const ctx = this.gameCanvas.context;
         ctx.clearRect(0, 0, this.gameCanvas.canvas.width, this.gameCanvas.canvas.height); // Clear the canvas
         ctx.fillStyle = 'blue'; // Set the square color
-        ctx.fillRect(20, this.gameMain.offsetHeight*0.3*this.player.lane+20, 30, 30); // Draw the square
+        ctx.drawImage(this.player.sprites, 20, this.gameMain.offsetHeight*0.3*this.player.lane+20, 30, 30);
+        //ctx.fillRect(20, this.gameMain.offsetHeight*0.3*this.player.lane+20, 30, 30); // Draw the square
         ctx.fillStyle = 'red'; // Set the square color
         this.dangerRocks.forEach((rock, index) => {
-            ctx.fillRect(rock.x, this.gameMain.offsetHeight*0.3*rock.lane+20, 30, 30); // Draw the rock
-            //ctx.drawImage(this.rockImg, rock.x, this.gameMain.offsetHeight*0.3*rock.lane+20, 30, 30);
+            //ctx.fillRect(rock.x, this.gameMain.offsetHeight*0.3*rock.lane+20, 30, 30); // Draw the rock
+            ctx.drawImage(this.rockImg, rock.x, this.gameMain.offsetHeight*0.3*rock.lane+20, 30, 30);
         });
     }
 }
 
-const game = new DataJetski(); game.run();
+const game = new DataJetski();

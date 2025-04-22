@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center h-screen">
         <div class="glassy p-6">
             <h1>Login to LifeJacket</h1>
             <br/>

@@ -188,6 +188,35 @@ app.get('/api/leaderboard/:whatOf/:relevantID', (req, res) => {
         });
 });
 
+// NAVBAR RELATED
+app.get('/api/getTaskCount/:studentID', (req, res) => {
+    const studentID = req.params.studentID;
+    console.log("runnin");
+    const sql = `
+    SELECT 
+        SUM(CASE WHEN t.DateDue < CURRENT_DATE THEN 1 ELSE 0 END) AS overdue_count,
+        SUM(CASE WHEN t.DateDue >= CURRENT_DATE THEN 1 ELSE 0 END) AS due_count
+    FROM Student_Tasks st
+    JOIN Tasks t ON st.TaskID = t.TaskID
+    WHERE st.StudentID = ?
+    AND st.Completed = 0
+    `;
+    db.query(sql, [studentID], (error, results) => {
+        console.log("runnin still");
+        if (error) {
+            return res.status(500).json({ error: 'Database query failed' });
+        }
+        console.log("runnin again");
+        const overdueCount = results[0].overdue_count || 0;
+        const dueCount = results[0].due_count || 0;
+
+        return res.json([
+            { name: "overdue", count: overdueCount },
+            { name: "due", count: dueCount }
+        ]);
+    });
+});
+
 // TOPIC RELATED
 app.get('/api/viewtopic/:topicID/s/:studentID', (req, res) => {
     // Based on the course and topic, lesson details will be fetched.
@@ -209,15 +238,15 @@ app.get('/api/viewtopic/:topicID/s/:studentID', (req, res) => {
 });
 
 // NAVBAR RELATED
-app.get('/api/getTaskCount/:studentID', (req, res) => {
-    // SQL returns {overdue, due} based on Tasks due and done dates.
-    const sql = ``;
-    // placeholder data
-    return res.json([
-        {name: "overdue", count: 1},
-        {name: "due", count: 2}
-    ]);
-});
+//app.get('/api/getTaskCount/:studentID', (req, res) => {
+//    // SQL returns {overdue, due} based on Tasks due and done dates.
+//    const sql = ``;
+//    // placeholder data
+//    return res.json([
+//        {name: "overdue", count: 1},
+//        {name: "due", count: 2}
+//    ]);
+//});
 
 // LESSON RELATED
 app.get('/api/getLessonParts/:lessonID', (req, res) => {
