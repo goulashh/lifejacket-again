@@ -34,6 +34,7 @@ class ScoreTimer {
                 console.log(this.remainingDuration + "S REMAINING");
             }
             else{
+                clearInterval(this.countUpdate);
                 this.stop('timeup');
             }
         }, 1000);

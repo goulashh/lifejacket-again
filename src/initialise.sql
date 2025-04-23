@@ -44,8 +44,8 @@ INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
             "text": "Personal data is any information relating to a person who could be identified. Even if the info on its own can\'t identify a person, putting enough info together could give enough clues to that person\'s identity."
         }},
         {"type": "read only", "content": {
-            "title": "In the Ocean..",
-            "text": "In the ocean, you and your surfboard are the only things that belong to you, and by looking at them we can learn how tall you are, how new your surfboard is and what colour, etc."
+            "title": "Your personal data",
+            "text": "Think of your personal data as a little version of you who lives on the internet."
         }},
         {"type": "multiple choice", "content": {
             "question": "What is Personal Data?",
@@ -63,16 +63,30 @@ INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
 ("Who Wants My Personal Data?",
     '[
         {"type": "read only", "content": {
-            "title": "Who Wants My Personal Data?",
-            "text": "Your personal data is like food for the"
+            "title": "Why do people want my personal data?",
+            "text": "It\'s important to keep your personal data safe, because "
         }},
-        {"type": "read only", "content": {
-            "title": "Data Jetski",
-            "text": "In this game, you\'ll be going out for a race on your jetski and carrying your personal data. The goal? Bring your data through the internet ocean and avoid the predators. Collect any safety equipment for bonus points! Try and reach the end without having all your data eaten!"
-        }},
-        {"type": "game", "content": "DataJetski"}
     ]',
     2
+),
+("Introduction to Trackers",
+    '[
+        {"type": "read only", "content": {
+            "title": "What is a tracker?",
+            "text": "On the internet, a tracker is a piece of code that collects data about a user."
+        }},
+    ]',
+    2
+),
+("Game - Avoid The Tracker Nets!",
+    '[
+        {"type": "read only", "content": {
+            "title": "Avoid The Tracker Nets!",
+            "text": "In this game, your personal data is scattered in the ocean! It\'s up to you to gather it while avoiding the tracker nets. You should recognise the trackers from what you\'ve learned in this topic."
+        }},
+        {"type": "game", "content": "AvoidTheNetTrackers"}
+    ]',
+    3
 ),
 ("SAMPLE",
     '[

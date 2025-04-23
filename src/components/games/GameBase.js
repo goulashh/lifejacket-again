@@ -21,22 +21,18 @@ class GameBase{
     draw() {}
     run() {
         this.isRunning = true;
-        //const gameLoop = setInterval(() => {
-        //    if (this.isRunning) {
-        //        this.game_logic();
-        //        this.draw();
-        //        requestAnimationFrame();
-        //    }
-        //}, 1000/fps);
         const loop = () => {
             if (this.isRunning) {
                 this.game_logic();
                 this.draw();
                 requestAnimationFrame(loop);
             }
+            else {
+                $bus.$emit('enable_progression', this.score);
+                alert(`You finished with a score of ${this.score}!`);
+            }
         };
         loop();
-        $bus.$emit('enable_progression', this.score);
     }
 }
 export default GameBase;

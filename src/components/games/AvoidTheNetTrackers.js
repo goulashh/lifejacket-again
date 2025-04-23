@@ -3,7 +3,6 @@ import GameBase from "./GameBase";
 class AvoidTheNetTrackers extends GameBase {
     constructor() {
         super();
-        this.score = 0;
 
         this.player = {
             pos: [0, 0],
@@ -13,9 +12,9 @@ class AvoidTheNetTrackers extends GameBase {
 
         this.blobs = [
             // Blobs can either be a net (tracker) or treasure (!tracker)
-            {tracker: true, name: "Third Party Cookies",
+            {tracker: true, name: "Third Party Cookies", timesUsed: 0,
                 explanation: "Third Party Cookies are small bits of data stored on your device by sites with different domains (website links). If another site uses the same third party cookies, they can read them and learn about the sites you visit!"},
-            {tracker: true, name: "Dark Patterns",
+            {tracker: true, name: "Dark Patterns", timesUsed: 0,
                 explanation: "PLACEHOLDER"},
         ];
 
@@ -24,7 +23,7 @@ class AvoidTheNetTrackers extends GameBase {
         this.blobSpawnInterval = 3000;   // 3 seconds
 
         this.setup_input();
-        this.player.sprites.src = require('@/assets/logo.png');
+        this.player.sprites.src = require('./fish.svg');
         this.player.sprites.onload = () => {
             this.run();
         };
@@ -32,22 +31,32 @@ class AvoidTheNetTrackers extends GameBase {
     }
 
     spawn_blob() {
-        const randomBlob = this.blobs[Math.floor(Math.random() * this.blobs.length)];
-        const blob = {
-            tracker: randomBlob.tracker,
-            name: randomBlob.name,
-            explanation: randomBlob.explanation,
-            pos: [Math.random() * this.gameCanvas.canvas.width, Math.random() * this.gameCanvas.canvas.height],
-            alpha: 1, // Full opacity
-            startTime: Date.now(),
-            visited: false
-        };
-        this.activeBlobs.push(blob);
+        this.blobs = this.blobs.filter(blob => blob.timesUsed < 3);
+        if(this.blobs.length != 0) {
+            const randomChoice = Math.floor(Math.random() * this.blobs.length);
+            const randomBlob = this.blobs[randomChoice];
+            
+            randomBlob.timesUsed++;
+            const blob = {
+                tracker: randomBlob.tracker,
+                name: randomBlob.name,
+                explanation: randomBlob.explanation,
+                pos: [Math.random() * this.gameCanvas.canvas.width, Math.random() * this.gameCanvas.canvas.height],
+                alpha: 1, // Full opacity
+                startTime: Date.now(),
+                visited: false
+            };
+            this.activeBlobs.push(blob);
+        }
     }
 
     start_blob_timer() {
-        setInterval(() => {
-            this.spawn_blob();
+        this.blobTimer = setInterval(() => {
+            if (this.isRunning) {
+                this.spawn_blob();
+            } else {
+                clearInterval(this.blobTimer); // Clear the interval if not running
+            }
         }, this.blobSpawnInterval);
     }
 
@@ -61,6 +70,10 @@ class AvoidTheNetTrackers extends GameBase {
 
     game_logic() {
         const currentTime = Date.now();
+        if(this.blobs.length == 0 && this.activeBlobs.length == 0) {
+            this.isRunning = false;
+            clearInterval(this.blobTimer);
+        }
         this.activeBlobs.forEach((blob, index) => {
             // Check if the blob should fade out
             if (currentTime - blob.startTime > this.blobDuration) {
@@ -85,16 +98,16 @@ class AvoidTheNetTrackers extends GameBase {
             }
             // if the blob isn't fading, is it being touched?
             else if (!blob.visited) {
-                const playerRadius = 20; // Assuming the player has a radius
-                const blobRadius = 20; // Assuming the blob has a radius
+                const playerRadius = 20;
+                const blobRadius = 20;
                 const dx = this.player.pos[0] - blob.pos[0];
                 const dy = this.player.pos[1] - blob.pos[1];
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Check if the distance is less than the sum of the radii
                 if (distance < playerRadius + blobRadius) {
                     // Mark the blob as visited
                     blob.visited = true;
+                    this.blobs
 
                     // Adjust score based on whether it's a tracker or not
                     if (blob.tracker) {

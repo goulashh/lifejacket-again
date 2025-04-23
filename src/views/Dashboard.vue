@@ -2,10 +2,10 @@
 <div id="dash-main">
 
     <div class="glassy mx-1 p-3" id="dash-topic-div">
-        <div id="dash-teacher" v-if="isTeacher() == true">
+        <div id="dash-teacher" v-if="isTeacher">
             <div class="flex justify-center"><h1>Classes</h1></div>
         </div>
-        <div v-if="isTeacher() == false">
+        <div v-if="!isTeacher">
             <div class="flex justify-center"><h1>Topics</h1></div>
             <div class="flex flex-wrap justify-between items-center justify-center">
                 <topic-summary-button
@@ -43,8 +43,9 @@ export default {
         }
     },
     created() {
-        if(this.isTeacher() == true) {
-
+        this.isTeacher = (sessionStorage.getItem('teacherID') == true);
+        if(this.isTeacher == true) {
+            // Teachery logic goes here.
         }
         else {
             this.getTopicSummaries();
@@ -67,10 +68,6 @@ export default {
             } catch (error) {
                 console.error('Error fetching items:', error);
             }
-        },
-        isTeacher() {
-            console.log("The teacherID supplied is: " + sessionStorage.getItem('teacherID').InstanceType + (sessionStorage.getItem('teacherID') == undefined));
-            return (sessionStorage.getItem('teacherID') == undefined);
         }
     }
 }
