@@ -83,22 +83,14 @@ export default {
             else {return "Next";}
         }
     },
-    async created() {
-        this.lessonParts = (await axios.get(`http://localhost:5000/api/getLessonParts/${this.lessonID}`)).data;
-        
-        this.totalScore = 0;
-        this.position = 0;
-        this.goNext = false;
-        console.log(this.totalScore + " " + this.position + " " + this.goNext);
-
-        this.$bus.$on('enable_progression', (score) => {
+    methods: {
+        handleEnableProgression(score) {
             // Allows the user to press next, but doesn't progress until button is pressed.
             console.log(`TS ${this.totalScore} + S ${score} = ${this.totalScore + score}`);
-            this.totalScore = this.totalScore + score;
+            this.totalScore += score;
             this.goNext = true;
-        });
-
-        this.$bus.$on('signal_next', async () => {
+        },
+        async handleSignalNext() {
             // For when the next button is pressed...
             if(this.lessonParts.length -1 == this.position) {
                 // This means the lesson has finished.
@@ -108,10 +100,9 @@ export default {
                     lessonID: this.lessonID,
                     studentID: sessionStorage.getItem('studentID')
                     });
-                    alert(`You finished with a score of ${this.totalScore}.\nWell Done!`);
-                    this.$router.push('../../dash');
-                }
-                catch (error) {
+                    alert(`Finished the lesson with a score of ${this.totalScore}. \nWell done!`);
+                    this.$router.push('@/dash');
+                } catch (error) {
                     console.error('Error fetching items:', error);
                 }
             }
@@ -120,11 +111,18 @@ export default {
                 this.goNext = false;
                 this.position++;
             }
-        });
+        }
     },
-    beforeDestroy() {
-        this.$bus.$off('enable_progression');
-        this.$bus.$off('signal_next');
+    async created() {
+        this.lessonParts = (await axios.get(`http://localhost:5000/api/getLessonParts/${this.lessonID}`)).data;
+        console.log("LESSON PARTS: " + this.lessonParts);
+
+        this.$bus.$on('enable_progression', this.handleEnableProgression);
+        this.$bus.$on('signal_next', this.handleSignalNext);
+    },
+    beforeUnmount() {
+        this.$bus.$off('enable_progression', this.handleEnableProgression);
+        this.$bus.$off('signal_next', this.handleSignalNext);
     }
 }
 </script>
