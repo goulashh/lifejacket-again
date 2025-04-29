@@ -101,7 +101,7 @@ export default {
                     studentID: sessionStorage.getItem('studentID')
                     });
                     alert(`Finished the lesson with a score of ${this.totalScore}. \nWell done!`);
-                    this.$router.push('@/dash');
+                    this.$router.push('../../dash');
                 } catch (error) {
                     console.error('Error fetching items:', error);
                 }
