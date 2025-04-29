@@ -17,7 +17,14 @@ export default {
         events.get(eventName).push(fn);
     },
     $off(eventName, fn) {
-        throw { message: 'Not implemented' };
+        if (!events.has(eventName)) return; // If the event doesn't exist, do nothing
+
+        const listeners = events.get(eventName);
+        // Remove the specified listener
+        const index = listeners.indexOf(fn);
+        if (index !== -1) {
+            listeners.splice(index, 1);
+        }
     },
     $emit(eventName, data) {
         if(events.has(eventName)) { 

@@ -97,14 +97,16 @@ app.get('/api/topicsummary/:studentid', (req, res) => {
     // 3. Get scores (or not) for each lesson
     console.log("3");
             const scoresOfStudent = `
-            SELECT L.TopicID, MaxScores.LessonID, MaxScores.MaxScore
-            FROM (
-                SELECT LessonID, StudentID, MAX(Score) AS MaxScore
-                FROM Scores
-                WHERE StudentID = ?
-                GROUP BY LessonID, StudentID
-            ) AS MaxScores
-            JOIN Lessons L ON MaxScores.LessonID = L.LessonID;`;
+                SELECT l.TopicID, MaxScores.LessonID, MaxScores.MaxScore
+                FROM (
+                    SELECT s.LessonID, s.StudentID, MAX(sp.PercentageScore) AS MaxScore
+                    FROM Scores s
+                    JOIN ScorePercentages sp ON s.ScoreID = sp.ScoreID
+                    WHERE s.StudentID = ?
+                    GROUP BY s.LessonID, s.StudentID
+                ) AS MaxScores
+                JOIN Lessons l ON MaxScores.LessonID = l.LessonID;
+            `;
             db.query(scoresOfStudent, values, (err3, results3) => {
                 if (err3) { 
                     return res.status(500).json({ error: err3.message });

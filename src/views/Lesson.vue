@@ -85,7 +85,11 @@ export default {
     },
     async created() {
         this.lessonParts = (await axios.get(`http://localhost:5000/api/getLessonParts/${this.lessonID}`)).data;
-        console.log("LESSON PARTS: " + this.lessonParts);
+        
+        this.totalScore = 0;
+        this.position = 0;
+        this.goNext = false;
+        console.log(this.totalScore + " " + this.position + " " + this.goNext);
 
         this.$bus.$on('enable_progression', (score) => {
             // Allows the user to press next, but doesn't progress until button is pressed.
@@ -103,8 +107,11 @@ export default {
                     score: this.totalScore,
                     lessonID: this.lessonID,
                     studentID: sessionStorage.getItem('studentID')
-                });
-                } catch (error) {
+                    });
+                    alert(`You finished with a score of ${this.totalScore}.\nWell Done!`);
+                    this.$router.push('../../dash');
+                }
+                catch (error) {
                     console.error('Error fetching items:', error);
                 }
             }
@@ -114,6 +121,10 @@ export default {
                 this.position++;
             }
         });
+    },
+    beforeDestroy() {
+        this.$bus.$off('enable_progression');
+        this.$bus.$off('signal_next');
     }
 }
 </script>

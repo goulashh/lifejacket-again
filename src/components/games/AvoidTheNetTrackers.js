@@ -8,16 +8,19 @@ class AvoidTheNetTrackers extends GameBase {
             pos: [0, 0],
             lives: 5,
             sprites: new Image(),
+            frames: 3, thisFrame: 0
         }
 
         this.blobs = [
-            // Blobs can either be a net (tracker) or treasure (!tracker)
-            {tracker: true, name: "Third Party Cookies", timesUsed: 0,
-                explanation: "Third Party Cookies are small bits of data stored on your device by sites with different domains (website links). If another site uses the same third party cookies, they can read them and learn about the sites you visit!"},
-            {tracker: true, name: "Dark Patterns", timesUsed: 0,
-                explanation: "PLACEHOLDER"},
+            {tracker: true, name: "Third Party Cookies", timesUsed: 0, seenEx: false,
+                explanation: "Cookies help your browser remember actions on websites. Third Party Cookies link multiple sites, allowing them to recognize you."},
+            {tracker: false, name: "Dark Patterns", timesUsed: 0, seenEx: false,
+                explanation: "Dark patterns manipulate your choices on websites, like pre-checked boxes or hard-to-find opt-outs. They AREN'T trackers but often help tracking happen."},
+            {tracker: true, name: "Device Fingerprinting", timesUsed: 0, seenEx: false,
+                explanation: "Websites identify your device by its unique features, similar to a fingerprint, allowing them to recognize you across different sites."},
         ];
 
+        this.useableBlobs = this.blobs.filter(blob => blob.timesUsed < 3);
         this.activeBlobs = [];           // To keep track of currently displayed blobs
         this.blobDuration = 5000;        // 5 seconds
         this.blobSpawnInterval = 3000;   // 3 seconds
@@ -31,13 +34,14 @@ class AvoidTheNetTrackers extends GameBase {
     }
 
     spawn_blob() {
-        this.blobs = this.blobs.filter(blob => blob.timesUsed < 3);
-        if(this.blobs.length != 0) {
-            const randomChoice = Math.floor(Math.random() * this.blobs.length);
-            const randomBlob = this.blobs[randomChoice];
+        this.useableBlobs = this.blobs.filter(blob => blob.timesUsed < 3);
+        if(this.useableBlobs.length != 0) {
+            const randomChoice = Math.floor(Math.random() * this.useableBlobs.length);
+            const randomBlob = this.useableBlobs[randomChoice];
             
             randomBlob.timesUsed++;
             const blob = {
+                id: this.blobs.indexOf(randomBlob),
                 tracker: randomBlob.tracker,
                 name: randomBlob.name,
                 explanation: randomBlob.explanation,
@@ -70,7 +74,7 @@ class AvoidTheNetTrackers extends GameBase {
 
     game_logic() {
         const currentTime = Date.now();
-        if(this.blobs.length == 0 && this.activeBlobs.length == 0) {
+        if(this.useableBlobs.length == 0 && this.activeBlobs.length == 0) {
             this.isRunning = false;
             clearInterval(this.blobTimer);
         }
@@ -89,6 +93,10 @@ class AvoidTheNetTrackers extends GameBase {
                         } else {
                             // An avoided non-tracker is a bad thing
                             this.score -= 50;
+                            if(!this.blobs[blob.id].seenEx) {
+                                alert(blob.explanation);
+                                this.blobs[blob.id].seenEx = true;
+                            }
                         }
                     }
     
@@ -107,19 +115,26 @@ class AvoidTheNetTrackers extends GameBase {
                 if (distance < playerRadius + blobRadius) {
                     // Mark the blob as visited
                     blob.visited = true;
-                    this.blobs
 
                     // Adjust score based on whether it's a tracker or not
                     if (blob.tracker) {
                         // Subtract score for touching a tracker
                         this.score -= 50;
+                        if(!this.blobs[blob.id].seenEx) {
+                            alert(blob.explanation);
+                            this.blobs[blob.id].seenEx = true;
+                        }
                     } else {
                         // Add score for touching a non-tracker
                         this.score += 100;
                     }
                 }
             }
-       });
+        });
+        this.player.thisFrame += 0.1; // Reduced speed to tick frames
+        if (this.player.thisFrame >= this.player.frames) {
+            this.player.thisFrame = 0; // Loop back to the first frame
+        }
     }
 
     draw() {
@@ -127,7 +142,10 @@ class AvoidTheNetTrackers extends GameBase {
         ctx.clearRect(0, 0, this.gameCanvas.canvas.width, this.gameCanvas.canvas.height); // Clear the canvas
         
         // Draw player
-        ctx.drawImage(this.player.sprites, this.player.pos[0], this.player.pos[1], 50, 50);
+        // Calculate the frame to draw
+        const frameX = Math.floor(this.player.thisFrame) * 500;
+        // Draw the current frame of the sprite
+        ctx.drawImage(this.player.sprites, frameX, 0, 500, 500, this.player.pos[0], this.player.pos[1], 100,100);
 
         this.activeBlobs.forEach(blob => {
                 if(blob.visited) {
@@ -151,10 +169,8 @@ class AvoidTheNetTrackers extends GameBase {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
         
-            // Draw the name centered in the circle
-            ctx.fillText(blob.name, blob.pos[0], blob.pos[1]); // Draw the name in the center of the net
+            ctx.fillText(blob.name, blob.pos[0], blob.pos[1]);
         });
-        // Draw the score at a fixed position
         ctx.fillText(this.score, 20, 20);
     }
 }

@@ -23,7 +23,7 @@ INSERT INTO Topics (TopicName, CourseID) VALUES
 ('Privacy and Anonymity 1', 1),
 ('Internet Safety 1', 1); 
 
-INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
+INSERT INTO Lessons (LessonName, LessonData, MaxScore, TopicID) VALUES
 ("Welcome to LifeJacket!",
     '[
         {"type": "read only", "content": {
@@ -35,7 +35,7 @@ INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
             "text": "The internet ocean can be full of hidden dangers for a surfer like you! Lots of oceanic predators want to get a hold of your personal data or make a meal of your password... Which is why we want you to learn about how to stay safe: by wearing a LifeJacket."
         }}
     ]',
-    1
+    0, 1
 ),
 ("Introduction to Personal Data",
     '[
@@ -58,25 +58,25 @@ INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
             "correctAnswer": 1
         }}
     ]',
-    2
+    100, 2
 ),
 ("Who Wants My Personal Data?",
     '[
         {"type": "read only", "content": {
             "title": "Why do people want my personal data?",
-            "text": "It\'s important to keep your personal data safe, because "
-        }},
+            "text": "It\'s important to keep your personal data safe, because it can be misused in various ways."
+        }}
     ]',
-    2
+    0, 2
 ),
 ("Introduction to Trackers",
     '[
         {"type": "read only", "content": {
             "title": "What is a tracker?",
             "text": "On the internet, a tracker is a piece of code that collects data about a user."
-        }},
+        }}
     ]',
-    2
+    0, 2
 ),
 ("Game - Avoid The Tracker Nets!",
     '[
@@ -86,7 +86,7 @@ INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
         }},
         {"type": "game", "content": "AvoidTheNetTrackers"}
     ]',
-    3
+    900, 3
 ),
 ("SAMPLE",
     '[
@@ -95,26 +95,9 @@ INSERT INTO Lessons (LessonName, LessonData, TopicID) VALUES
             "text": "SAMPLE"
         }}
     ]',
-    3
-),
-("SAMPLE",
-    '[
-        {"type": "read only", "content": {
-            "title": "SAMPLE",
-            "text": "SAMPLE"
-        }}
-    ]',
-    4
-),
-("SAMPLE",
-    '[
-        {"type": "read only", "content": {
-            "title": "SAMPLE",
-            "text": "SAMPLE"
-        }}
-    ]',
-    5
+    0, 3
 );
+
 
 INSERT INTO Classes (DateStarted, CourseID) VALUES
 ('2025-01-01', 1);
