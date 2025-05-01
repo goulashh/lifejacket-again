@@ -239,16 +239,53 @@ app.get('/api/viewtopic/:topicID/s/:studentID', (req, res) => {
         });
 });
 
-// NAVBAR RELATED
-//app.get('/api/getTaskCount/:studentID', (req, res) => {
-//    // SQL returns {overdue, due} based on Tasks due and done dates.
-//    const sql = ``;
-//    // placeholder data
-//    return res.json([
-//        {name: "overdue", count: 1},
-//        {name: "due", count: 2}
-//    ]);
-//});
+// TASKS RELATED
+app.get('/api/getTasks/:studentID', (req, res) => {
+    const sql = `
+        SELECT l.LessonName, t.DateSet, t.DateDue 
+        FROM Lessons l
+        JOIN Student_Tasks st ON l.LessonID = st.LessonID
+        JOIN Tasks t ON t.TaskID = st.TaskID 
+        WHERE st.StudentID = ?
+    `;
+    const studentID = req.params.studentID;
+    db.query(sql, [studentID], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database query failed' });
+        }
+
+        const due = [];
+        const overdue = [];
+        const completed = [];
+
+        const today = moment();
+
+        results.forEach(task => {
+            const dueDate = moment(task.DateDue);
+            const objectFormatted = {
+                "LessonName":task.LessonName,
+                "DateSet": task.DateSet,
+                "DateDue": task.DateDue
+            }
+
+            if (task.Completed) {
+                completed.push(objectFormatted);
+            } else if (dueDate.isBefore(today)) {
+                overdue.push(objectFormatted);
+            } else {
+                due.push(objectFormatted);
+            }
+        });
+
+        // Return the formatted response
+        return res.json({
+            "due": due,
+            "overdue": overdue,
+            "completed": completed
+        });
+    });
+
+});
 
 // LESSON RELATED
 app.get('/api/getLessonParts/:lessonID', (req, res) => {
