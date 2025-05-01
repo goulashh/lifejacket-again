@@ -13,8 +13,11 @@ export default {
     props: {
         content: {type: Object, required: true}
     },
+    created() {
+        this.$bus.$emit('enable_progression', 1);
+    },
     watch: {content(newValue, oldValue) {
-        this.$bus.$emit('enable_progression', 0);
+        this.$bus.$emit('enable_progression', 1);
     }}
 }
 </script>

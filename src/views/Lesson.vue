@@ -115,6 +115,7 @@ export default {
     },
     async created() {
         this.lessonParts = (await axios.get(`http://localhost:5000/api/getLessonParts/${this.lessonID}`)).data;
+        this.totalScore = 0;
         console.log("LESSON PARTS: " + this.lessonParts);
 
         this.$bus.$on('enable_progression', this.handleEnableProgression);

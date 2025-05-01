@@ -31,11 +31,25 @@ INSERT INTO Lessons (LessonName, LessonData, MaxScore, TopicID) VALUES
             "text": "LifeJacket is a website where you\'ll learn about keeping your data safe on the internet through questions and games. In our lessons, we compare the internet to the ocean and sea creatures to help you remember and understand what we\'re teaching!"
         }},
         {"type": "read only", "content": {
-            "title": "What is LifeJacket... continued",
-            "text": "The internet ocean can be full of hidden dangers for a surfer like you! Lots of oceanic predators want to get a hold of your personal data or make a meal of your password... Which is why we want you to learn about how to stay safe: by wearing a LifeJacket."
+            "title": "The Privacy Paradox",
+            "text": "A paradox is when two things don\'t make sense together. The Privacy Paradox is when what you know about staying private online and how you really act aren\'t quite the same."
+        }},
+        {"type": "multiple choice", "content": {
+            "question": "What is LifeJacket for?",
+            "answers": [
+                {"index": 1, "text": "Blocking trackers"},
+                {"index": 2, "text": "Learning about staying safe online"},
+                {"index": 3, "text": "Getting rid of all of your data on the internet"},
+                {"index": 4, "text": "Making sure your computer floats"}
+            ],
+            "correctAnswer": 2
+        }},
+        {"type": "read only", "content": {
+            "title": "Let\'s Go!",
+            "text": "Now you know what we\'re all about, let\'s get learning!"
         }}
     ]',
-    0, 1
+    103, 1
 ),
 ("Introduction to Personal Data",
     '[

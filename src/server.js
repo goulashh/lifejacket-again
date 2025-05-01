@@ -35,7 +35,7 @@ app.post('/api/login', (req, res) => {
     FROM Users u
     LEFT JOIN Students s ON u.UserID = s.UserID
     LEFT JOIN Teachers t ON u.UserID = t.UserID
-    WHERE u.Username = ? AND u.UserID = ?
+    WHERE u.Username = ? AND u.UserPassword = ?
     `;
     const reqData = [req.body.username, req.body.password];
     db.query(sql, reqData, (err, results) => {
