@@ -92,15 +92,15 @@ INSERT INTO Lessons (LessonName, LessonData, MaxScore, TopicID) VALUES
     ]',
     0, 2
 ),
-("Game - Avoid The Tracker Nets!",
+("Avoid The Tracker Nets!",
     '[
         {"type": "read only", "content": {
-            "title": "Avoid The Tracker Nets!",
+            "title": "Game: Avoid The Tracker Nets!",
             "text": "In this game, your personal data is scattered in the ocean! It\'s up to you to gather it while avoiding the tracker nets. You should recognise the trackers from what you\'ve learned in this topic."
         }},
         {"type": "game", "content": "AvoidTheNetTrackers"}
     ]',
-    900, 3
+    901, 3
 ),
 ("SAMPLE",
     '[

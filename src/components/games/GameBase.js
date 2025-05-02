@@ -9,8 +9,8 @@ class GameBase{
         this.gameCanvas = {
             canvas: document.createElement("canvas"),
             start: () => {
-                this.gameCanvas.canvas.width = 0.98*this.gameMain.offsetWidth; 
-                this.gameCanvas.canvas.height = 0.96*this.gameMain.offsetHeight;
+                this.gameCanvas.canvas.width = 0.9*this.gameMain.offsetWidth; 
+                this.gameCanvas.canvas.height = 0.9*this.gameMain.offsetHeight;
                 this.gameCanvas.context = this.gameCanvas.canvas.getContext("2d");
                 this.gameMain.appendChild(this.gameCanvas.canvas);
             }
@@ -29,7 +29,7 @@ class GameBase{
             }
             else {
                 $bus.$emit('enable_progression', this.score);
-                alert(`You finished with a score of ${this.score}!`);
+                alert(`Game Over! You finished with a score of ${this.score}!`);
             }
         };
         loop();

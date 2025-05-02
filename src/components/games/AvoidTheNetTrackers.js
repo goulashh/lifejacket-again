@@ -3,10 +3,9 @@ import GameBase from "./GameBase";
 class AvoidTheNetTrackers extends GameBase {
     constructor() {
         super();
-
         this.player = {
             pos: [0, 0],
-            lives: 5,
+            lives: 3,
             sprites: new Image(),
             frames: 3, thisFrame: 0
         }
@@ -80,7 +79,7 @@ class AvoidTheNetTrackers extends GameBase {
 
     game_logic() {
         const currentTime = Date.now();
-        if(this.useableBlobs.length == 0 && this.activeBlobs.length == 0) {
+        if(this.useableBlobs.length == 0 && this.activeBlobs.length == 0 || this.player.lives <= 0) {
             this.isRunning = false;
             clearInterval(this.blobTimer);
         }
@@ -98,7 +97,7 @@ class AvoidTheNetTrackers extends GameBase {
                             this.score += 100;
                         } else {
                             // An avoided non-tracker is a bad thing
-                            this.score -= 50;
+                            this.score -= 50; this.player.lives -= 1;
                             if(!this.blobs[blob.id].seenEx) {
                                 alert(blob.explanation);
                                 this.blobs[blob.id].seenEx = true;
@@ -125,7 +124,7 @@ class AvoidTheNetTrackers extends GameBase {
                     // Adjust score based on whether it's a tracker or not
                     if (blob.tracker) {
                         // Subtract score for touching a tracker
-                        this.score -= 50;
+                        this.score -= 50; this.player.lives -= 1;
                         if(!this.blobs[blob.id].seenEx) {
                             alert(blob.explanation);
                             this.blobs[blob.id].seenEx = true;
@@ -147,6 +146,8 @@ class AvoidTheNetTrackers extends GameBase {
         const ctx = this.gameCanvas.context;
         ctx.clearRect(0, 0, this.gameCanvas.canvas.width, this.gameCanvas.canvas.height); // Clear the canvas
         
+        ctx.font = '16px Arial';
+        ctx.textBaseline = 'middle';
         // Draw player
         // Calculate the frame to draw
         const frameX = Math.floor(this.player.thisFrame) * 500;
@@ -170,14 +171,16 @@ class AvoidTheNetTrackers extends GameBase {
             ctx.fill();
         
             // Set text properties
-            ctx.fillStyle = `rgba(255, 255, 255, ${blob.alpha})`;
-            ctx.font = '16px Arial';
+            //ctx.fillStyle = `rgba(255, 255, 255, ${blob.alpha})`;
+            ctx.fillStyle = `rgba(0, 0, 0)`;
             ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
         
             ctx.fillText(blob.name, blob.pos[0], blob.pos[1]);
         });
-        ctx.fillText(this.score, 20, 20);
+        ctx.fillStyle = `rgba(0, 0, 0)`;
+        ctx.textAlign = 'left';
+        ctx.fillText("SCORE: " + this.score, 20, 20);
+        ctx.fillText("LIVES: " + this.player.lives, 20, 40);
     }
 }
 
