@@ -19,10 +19,10 @@ class AvoidTheNetTrackers extends GameBase {
                 explanation: "Websites identify your device by its unique features, similar to a fingerprint, allowing them to recognize you across different sites."},
             {tracker: false, name: "Password", timesUsed: 0, seenEx: false,
                 explanation: "Passwords are personal data, not a tracker. It's important not to leave this in the ocean where others could collect it!"},
-            {tracker: true, name: "", timesUsed: 0, seenEx: false,
-                explanation: ""},
-            {tracker: false, name: "", timesUsed: 0, seenEx: false,
-                explanation: ""},
+            //{tracker: true, name: "", timesUsed: 0, seenEx: false,
+            //    explanation: ""},
+            //{tracker: false, name: "", timesUsed: 0, seenEx: false,
+            //    explanation: ""},
         ];
 
         this.useableBlobs = this.blobs.filter(blob => blob.timesUsed < 3);

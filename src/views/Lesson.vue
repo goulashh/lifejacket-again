@@ -50,30 +50,9 @@ export default {
             goNext: false,
             lessonParts: [
                 {type: "read only", content: {
-                    title: "TEST TITLE",
-                    text: "TEST TEXT"
-                }},
-                {type: 'multiple choice', content: {
-                    question: "TEST QUESTION ANSWER IS A",
-                    answers: [
-                        {index: 1, text: "A"},
-                        {index: 2, text: "B"},
-                        {index: 3, text: "C"},
-                        {index: 4, text: "D"}
-                    ],
-                    correctAnswer: 1
-                }},
-                {type: 'multiple choice', content: {
-                    question: "TEST QUESTION ANSWER IS A",
-                    answers: [
-                        {index: 1, text: "A"},
-                        {index: 2, text: "B"},
-                        {index: 3, text: "C"},
-                        {index: 4, text: "D"}
-                    ],
-                    correctAnswer: 1
-                }},
-                {type: 'game', content: 'DataJetski'},
+                    title: "Loading...",
+                    text: "Loading..."
+                }}
             ]
         }
     },
@@ -108,8 +87,9 @@ export default {
             }
             else {
                 // If it hasn't finished, then the lesson progresses
-                this.goNext = false;
                 this.position++;
+                console.log(this.lessonParts[this.position].content);
+                this.goNext = false;
             }
         }
     },

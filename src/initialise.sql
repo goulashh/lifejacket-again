@@ -90,7 +90,7 @@ INSERT INTO Lessons (LessonName, LessonData, MaxScore, TopicID) VALUES
             "text": "On the internet, a tracker is a piece of code that collects data about a user."
         }}
     ]',
-    0, 2
+    0, 3
 ),
 ("Avoid The Tracker Nets!",
     '[
@@ -102,6 +102,51 @@ INSERT INTO Lessons (LessonName, LessonData, MaxScore, TopicID) VALUES
     ]',
     901, 3
 ),
+("Preventing Trackers",
+    '[
+        {"type": "read only", "content": {
+            "title": "Preventing Trackers",
+            "text": "Now you know some of the trackers that are out there, how do you stop them from gathering data on you?"
+        }},
+        {"type": "read only", "content": {
+            "title": "Browser Settings",
+            "text": "Going in to browser settings and searching for trackers should give you the options for different levels of security. Firefox for example stores most tracking prevention methods here, including cookies and fingerprinting methods."
+        }},
+        {"type": "read only", "content": {
+            "title": "VPN",
+            "text": "A Virtual Private Network (VPN) sends data to and from your computer using a different IP address. Think of it as colleting letters from a place that isn\'t your house. This helps you confuse trackers on your real location."
+        }},
+        {"type": "multiple choice", "content": {
+            "question": "Where can you disable third-party cookies?",
+            "answers": [
+                {"index": 1, "text": "In a VPN"},
+                {"index": 2, "text": "By using a secure computer"},
+                {"index": 3, "text": "The computer settings"},
+                {"index": 4, "text": "The browser settings"}
+            ],
+            "correctAnswer": 4
+        }},
+        {"type": "read only", "content": {
+            "title": "The Browser You Use",
+            "text": "Some browsers have better security features than others. Most popular browsers are very secure, but some browsers like Tor are made especially for security and tracking prevention. Tor sends your data through lots of different devices, like a super-VPN, to confuse trackers. It also makes fingerprinting scripts see the same device information as any other device using Tor."
+        }},
+        {"type": "multiple choice", "content": {
+            "question": "What does a VPN do?",
+            "answers": [
+                {"index": 1, "text": "Encrypt your data"},
+                {"index": 2, "text": "Send data to and from your computer with a different address"},
+                {"index": 3, "text": "Make your computer look like another computer"},
+                {"index": 4, "text": "Disable third party cookies"}
+            ],
+            "correctAnswer": 2
+        }},
+        {"type": "read only", "content": {
+            "title": "Try it yourself!",
+            "text": "Try using some of these methods yourself next time you are using the internet to stay safe!"
+        }}
+    ]',
+    205, 3
+),
 ("SAMPLE",
     '[
         {"type": "read only", "content": {
@@ -109,7 +154,25 @@ INSERT INTO Lessons (LessonName, LessonData, MaxScore, TopicID) VALUES
             "text": "SAMPLE"
         }}
     ]',
-    0, 3
+    1, 3
+),
+("SAMPLE",
+    '[
+        {"type": "read only", "content": {
+            "title": "SAMPLE",
+            "text": "SAMPLE"
+        }}
+    ]',
+    1, 4
+),
+("SAMPLE",
+    '[
+        {"type": "read only", "content": {
+            "title": "SAMPLE",
+            "text": "SAMPLE"
+        }}
+    ]',
+    1, 5
 );
 
 

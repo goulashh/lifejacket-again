@@ -223,7 +223,7 @@ app.get('/api/getTaskCount/:studentID', (req, res) => {
 app.get('/api/viewtopic/:topicID/s/:studentID', (req, res) => {
     // Based on the course and topic, lesson details will be fetched.
     db.query(`
-        SELECT l.LessonID, l.LessonName, s.Score
+        SELECT l.LessonID, l.LessonName, MAX(s.Score) AS Score
         FROM Lessons l
         JOIN Topics t ON t.TopicID = l.TopicID
         LEFT JOIN Scores s ON s.LessonID = l.LessonID AND s.StudentID = ?

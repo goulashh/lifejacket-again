@@ -30,6 +30,7 @@ export default {
     },
     watch: {
         content(newValue, oldValue) {
+            console.log("was " + oldValue + ", now " + newValue);
             if (this.scoreTimer) {
                 this.scoreTimer.cleanup(); // Clean up the previous timer
             }
@@ -58,6 +59,7 @@ export default {
     created() {
         this.scoreTimer = new ScoreTimer(60, 100);
         this.scoreTimer.start();
+        console.log("Q");
         this.$bus.$on('timeup', this.handleTimeup);
         this.$bus.$on('signal_next', this.handleSignalNext);
     },

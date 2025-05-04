@@ -1,4 +1,5 @@
 import GameHandler from '@/components/games/GameHandler.vue'
+import Tasks from '@/views/Tasks.vue'
 import $bus from '@/globaleventbus'
 import Dashboard from '@/views/Dashboard.vue'
 import Lesson from '@/views/Lesson.vue'
@@ -40,9 +41,8 @@ const routes = [
     ]
   },
   {
-    path: '/test/:gameFile', 
-    props: true,
-    component: GameHandler
+    path: '/tasks', 
+    component: Tasks
   }
 ]
 
